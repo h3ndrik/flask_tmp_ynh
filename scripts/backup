@@ -96,7 +96,7 @@ ynh_backup --src_path="/etc/$app/"
 # BACKUP THE DATABASE
 #=================================================
 
-if [ $db_type -eq "mysql" ]
+if [ $db_type = "mysql" ]
 then
 	ynh_print_info --message="Backing up the MySQL database..."
 
@@ -104,7 +104,7 @@ then
 	### copy of the generated dump to the archive still happens later)
 
 	ynh_mysql_dump_db --database="$db_name" > db.sql
-elif [ $db_type -eq "postgresql" ]
+elif [ $db_type = "postgresql" ]
 then
 	ynh_print_info --message="Backing up the PostgreSQL database..."
 	ynh_psql_dump_db --database="$db_name" > db.sql

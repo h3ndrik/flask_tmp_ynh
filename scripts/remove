@@ -56,13 +56,13 @@ ynh_remove_logrotate
 #=================================================
 # REMOVE THE DATABASE
 #=================================================
-if [ $db_type -eq "mysql" ]
+if [ $db_type = "mysql" ]
 then
 	ynh_script_progression --message="Removing the MySQL database..." --time --weight=1
 
 	# Remove a database if it exists, along with the associated user
 	ynh_mysql_remove_db --db_user=$db_user --db_name=$db_name
-elif [ $db_type -eq "postgresql" ]
+elif [ $db_type = "postgresql" ]
 then
 	ynh_script_progression --message="Removing the PostgreSQL database..." --time --weight=1
 

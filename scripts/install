@@ -122,7 +122,7 @@ ynh_system_user_create --username=$app --home_dir="$final_path"
 # CREATE A DATABASE
 #=================================================
 
-if [ $db_type -eq "mysql" ]
+if [ $db_type = "mysql" ]
 then
 
 	ynh_script_progression --message="Creating a MySQL database..." --time --weight=1
@@ -141,7 +141,7 @@ then
 	ynh_app_setting_set --app=$app --key=db_name --value=$db_name
 	ynh_mysql_setup_db --db_user=$db_user --db_name=$db_name
 
-elif [ $db_type -eq "postgresql" ]
+elif [ $db_type = "postgresql" ]
 then
 
 	ynh_script_progression --message="Creating a PostgreSQL database..." --time --weight=1
@@ -253,7 +253,7 @@ chown $app:$app "$final_path/app/settings_local.py"
 ### you shoud rely on ynh_replace_string (which is basically a wrapper for sed)
 ### When doing so, you also need to manually call ynh_store_file_checksum
 
-if [ $db_type -eq "mysql" ]
+if [ $db_type = "mysql" ]
 then
 	db_host="$db_user:$db_pwd@localhost"
 	ynh_replace_string --match_string="__YNH_DB_TYPE__" --replace_string="mysql" --target_file="$final_path/app/settings_local.py"
@@ -262,7 +262,7 @@ then
 	ynh_replace_string --match_string="__YNH_DB_USER__" --replace_string="$db_user" --target_file="$final_path/app/settings_local.py"
 	ynh_replace_string --match_string="__YNH_DB_PASSWORD__" --replace_string="$db_pwd" --target_file="$final_path/app/settings_local.py"
 	ynh_store_file_checksum --file="$final_path/app/settings_local.py"
-elif [ $db_type -eq "postgresql" ]
+elif [ $db_type = "postgresql" ]
 then
 	db_host="$db_user:$db_pwd@localhost"
 	ynh_replace_string --match_string="__YNH_DB_TYPE__" --replace_string="postgresql" --target_file="$final_path/app/settings_local.py"

@@ -46,7 +46,7 @@
                 "name": "db_type",
                 "type": "string",
                 "choices": ["postgresql", "mysql", "none"],
-                "default": "postgresql",
+                "default": "none",
                 "ask": {
                     "en": "Choose the database to use",
                     "fr": "Choisissez la base de donnée à utiliser"
