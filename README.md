@@ -21,9 +21,10 @@ You can then use it to :
 ## Technologies
 
 - Python 3
-- ~~Postgresql~~ (sqlite, but should be able to choose postgres vs. sqlite at install)
-- Gunicorn
+- Flask
 - SQLAlchemy
+- PostgreSQL or MySQL (optional)
+- Gunicorn
 
 **Shipped version:** 2.0
 

@@ -176,17 +176,22 @@ ynh_add_nginx_config
 mkdir -p $final_path
 pushd $final_path
 python3 -m venv venv
-#set +o nounset
+set +o nounset
 . venv/bin/activate
-#set -o nounset
-pip install Flask
-pip install Flask-SQLAlchemy
-pip install Flask-Script
-pip install flask-login
+set -o nounset
+pip install --upgrade Flask
+pip install --upgrade Flask-SQLAlchemy
+pip install --upgrade Flask-Script
+pip install --upgrade flask-login
 #psycopg2 driver for sqlalchemy postgresql dialect (either that or pg8000)
 #if [ "$db_type" = 'postgresql' ]; then pip install psycopg2; fi
 #pip install gunicorn
+set +o nounset
+deactivate
+set -o nounset
 popd
+
+chown $app:www-data -R "$final_path"
 
 #=================================================
 # CREATE DATA DIRECTORY
@@ -235,8 +240,8 @@ ynh_script_progression --message="Adding a configuration file..." --time --weigh
 
 ynh_add_config --template="../sources/templates/index.html" --destination="$final_path/templates/index.html"
 
-ynh_add_config --template="../conf/settings.py" --destination="$final_path/app/settings_local.py"
-ynh_add_config --template="../conf/gunicorn.py" --destination="$final_path/gunicorn.py"
+ynh_add_config --template="settings.py" --destination="$final_path/app/settings_local.py"
+ynh_add_config --template="gunicorn.py" --destination="$final_path/gunicorn.py"
 
 # FIXME: this should be handled by the core in the future
 # You may need to use chmod 600 instead of 400,
