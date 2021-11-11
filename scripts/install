@@ -190,11 +190,10 @@ set +o nounset
 set -o nounset
 pip install --upgrade Flask
 pip install --upgrade Flask-SQLAlchemy
-pip install --upgrade Flask-Script
 pip install --upgrade flask-login
-#psycopg2 driver for sqlalchemy postgresql dialect (either that or pg8000)
-#if [ "$db_type" = 'postgresql' ]; then pip install psycopg2; fi
-pip install gunicorn
+pip install --upgrade gunicorn
+#psycopg2 driver for sqlalchemy postgresql dialect
+if [ "$db_type" = 'postgresql' ]; then pip install --upgrade psycopg2; fi
 set +o nounset
 deactivate
 set -o nounset
