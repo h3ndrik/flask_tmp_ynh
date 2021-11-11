@@ -113,10 +113,10 @@ ynh_install_app_dependencies $pkg_dependencies
 
 if [ $db_type = "mysql" ]
 then
-	ynh_install_app_dependencies mariadb-server
+	ynh_install_app_dependencies python3-mysqld libmariadbclient-dev
 elif [ $db_type = "postgresql" ]
 then
-	ynh_install_app_dependencies postgresql
+	ynh_install_app_dependencies postgresql python3-psycopg2
 fi
 
 #=================================================
@@ -292,6 +292,22 @@ else
 	db_host=""
 	ynh_store_file_checksum --file="$final_path/app/settings_local.py"
 fi
+
+#=================================================
+# SPECIFIC SETUP
+#=================================================
+# CREATE DATABASE
+#=================================================
+
+pushd $final_path
+set +o nounset
+. venv/bin/activate
+set -o nounset
+python -c "from app import db, create_app; app = create_app(); app.app_context().push(); db.create_all()"
+set +o nounset
+deactivate
+set -o nounset
+popd
 
 #=================================================
 # SETUP SYSTEMD
