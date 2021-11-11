@@ -18,6 +18,7 @@ app=$YNH_APP_INSTANCE_NAME
 
 domain=$(ynh_app_setting_get --app=$app --key=domain)
 port=$(ynh_app_setting_get --app=$app --key=port)
+db_type=$(ynh_app_setting_get --app=$app --key=db_type)
 db_name=$(ynh_app_setting_get --app=$app --key=db_name)
 db_user=$db_name
 final_path=$(ynh_app_setting_get --app=$app --key=final_path)
@@ -53,12 +54,23 @@ ynh_script_progression --message="Removing logrotate configuration..." --time --
 ynh_remove_logrotate
 
 #=================================================
-# REMOVE THE MYSQL DATABASE
+# REMOVE THE DATABASE
 #=================================================
-ynh_script_progression --message="Removing the MySQL database..." --time --weight=1
+if [ $db_type -eq "mysql" ]
+then
+	ynh_script_progression --message="Removing the MySQL database..." --time --weight=1
 
-# Remove a database if it exists, along with the associated user
-ynh_mysql_remove_db --db_user=$db_user --db_name=$db_name
+	# Remove a database if it exists, along with the associated user
+	ynh_mysql_remove_db --db_user=$db_user --db_name=$db_name
+elif [ $db_type -eq "postgresql" ]
+then
+	ynh_script_progression --message="Removing the PostgreSQL database..." --time --weight=1
+
+	# Remove a database if it exists, along with the associated user
+	ynh_psql_remove_db --db_user=$db_user --db_name=$db_name
+else
+	ynh_script_progression --message="No database to remove..." --time --weight=1
+fi
 
 #=================================================
 # REMOVE DEPENDENCIES

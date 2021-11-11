@@ -26,10 +26,8 @@ ynh_abort_if_errors
 
 domain=$YNH_APP_ARG_DOMAIN
 path_url=$YNH_APP_ARG_PATH
-admin=$YNH_APP_ARG_ADMIN
 is_public=$YNH_APP_ARG_IS_PUBLIC
-language=$YNH_APP_ARG_LANGUAGE
-password=$YNH_APP_ARG_PASSWORD
+db_type=$YNH_APP_ARG_DB_TYPE
 
 ### If it's a multi-instance app, meaning it can be installed several times independently
 ### The id of the app as stated in the manifest is available as $YNH_APP_ID
@@ -71,8 +69,7 @@ ynh_script_progression --message="Storing installation settings..." --time --wei
 
 ynh_app_setting_set --app=$app --key=domain --value=$domain
 ynh_app_setting_set --app=$app --key=path --value=$path_url
-ynh_app_setting_set --app=$app --key=admin --value=$admin
-ynh_app_setting_set --app=$app --key=language --value=$language
+ynh_app_setting_set --app=$app --key=db_type --value=$db_type
 
 #=================================================
 # STANDARD MODIFICATIONS
@@ -122,23 +119,43 @@ ynh_script_progression --message="Configuring system user..." --time --weight=1
 ynh_system_user_create --username=$app --home_dir="$final_path"
 
 #=================================================
-# CREATE A MYSQL DATABASE
+# CREATE A DATABASE
 #=================================================
-ynh_script_progression --message="Creating a MySQL database..." --time --weight=1
 
-### Use these lines if you need a database for the application.
-### `ynh_mysql_setup_db` will create a database, an associated user and a ramdom password.
-### The password will be stored as 'mysqlpwd' into the app settings,
-### and will be available as $db_pwd
-### If you're not using these lines:
-###		- Remove the section "BACKUP THE MYSQL DATABASE" in the backup script
-###		- Remove also the section "REMOVE THE MYSQL DATABASE" in the remove script
-###		- As well as the section "RESTORE THE MYSQL DATABASE" in the restore script
+if [ $db_type -eq "mysql" ]
+then
 
-db_name=$(ynh_sanitize_dbid --db_name=$app)
-db_user=$db_name
-ynh_app_setting_set --app=$app --key=db_name --value=$db_name
-ynh_mysql_setup_db --db_user=$db_user --db_name=$db_name
+	ynh_script_progression --message="Creating a MySQL database..." --time --weight=1
+
+	### Use these lines if you need a database for the application.
+	### `ynh_mysql_setup_db` will create a database, an associated user and a ramdom password.
+	### The password will be stored as 'mysqlpwd' into the app settings,
+	### and will be available as $db_pwd
+	### If you're not using these lines:
+	###		- Remove the section "BACKUP THE MYSQL DATABASE" in the backup script
+	###		- Remove also the section "REMOVE THE MYSQL DATABASE" in the remove script
+	###		- As well as the section "RESTORE THE MYSQL DATABASE" in the restore script
+
+	db_name=$(ynh_sanitize_dbid --db_name=$app)
+	db_user=$db_name
+	ynh_app_setting_set --app=$app --key=db_name --value=$db_name
+	ynh_mysql_setup_db --db_user=$db_user --db_name=$db_name
+
+elif [ $db_type -eq "postgresql" ]
+then
+
+	ynh_script_progression --message="Creating a PostgreSQL database..." --time --weight=1
+
+	db_name=$(ynh_sanitize_dbid --db_name=$app)
+	db_user=$db_name
+	ynh_app_setting_set --app=$app --key=db_name --value=$db_name
+	ynh_psql_setup_db --db_user=$db_user --db_name=$db_name
+
+else
+
+	ynh_script_progression --message="Skipping database..." --time --weight=1
+
+fi
 
 #=================================================
 # DOWNLOAD, CHECK AND UNPACK SOURCE

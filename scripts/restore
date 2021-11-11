@@ -31,6 +31,7 @@ app=$YNH_APP_INSTANCE_NAME
 domain=$(ynh_app_setting_get --app=$app --key=domain)
 path_url=$(ynh_app_setting_get --app=$app --key=path)
 final_path=$(ynh_app_setting_get --app=$app --key=final_path)
+db_type=$(ynh_app_setting_get --app=$app --key=db_type)
 db_name=$(ynh_app_setting_get --app=$app --key=db_name)
 db_user=$db_name
 phpversion=$(ynh_app_setting_get --app=$app --key=phpversion)
@@ -124,13 +125,25 @@ ynh_script_progression --message="Reinstalling dependencies..." --time --weight=
 ynh_install_app_dependencies $pkg_dependencies
 
 #=================================================
-# RESTORE THE MYSQL DATABASE
+# RESTORE THE DATABASE
 #=================================================
-ynh_script_progression --message="Restoring the MySQL database..." --time --weight=1
+if [ $db_type -eq "mysql" ]
+then
+	ynh_script_progression --message="Restoring the MySQL database..." --time --weight=1
 
-db_pwd=$(ynh_app_setting_get --app=$app --key=mysqlpwd)
-ynh_mysql_setup_db --db_user=$db_user --db_name=$db_name --db_pwd=$db_pwd
-ynh_mysql_connect_as --user=$db_user --password=$db_pwd --database=$db_name < ./db.sql
+	db_pwd=$(ynh_app_setting_get --app=$app --key=mysqlpwd)
+	ynh_mysql_setup_db --db_user=$db_user --db_name=$db_name --db_pwd=$db_pwd
+	ynh_mysql_connect_as --user=$db_user --password=$db_pwd --database=$db_name < ./db.sql
+elif [ $db_type -eq "postgresql" ]
+then
+	ynh_script_progression --message="Restoring the PostgreSQL database..." --time --weight=1
+
+	db_pwd=$(ynh_app_setting_get --app=$app --key=psqlpwd)
+	ynh_psql_setup_db --db_user=$db_user --db_name=$db_name --db_pwd=$db_pwd
+	ynh_psql_connect_as --user=$db_user --password=$db_pwd --database=$db_name < ./db.sql
+else
+	ynh_script_progression --message="No database to restore..." --time --weight=1
+fi
 
 #=================================================
 # RESTORE VARIOUS FILES
