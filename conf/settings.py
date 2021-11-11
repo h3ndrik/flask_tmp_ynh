@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 # (N.B : the site root is also related to the nginx conf!)
-SITE_ROOT = "__YNH_APP_WEBPATH__"
+SITE_ROOT = "__PATH__"
 
 DEBUG = False
 TEMPLATE_DEBUG = False

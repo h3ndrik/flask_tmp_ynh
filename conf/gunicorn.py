@@ -1,8 +1,8 @@
-command = '__YNH_APP_PATH__/venv/bin/gunicorn'
-pythonpath = '__YNH_APP_PATH__'
+command = '__FINALPATH__/venv/bin/gunicorn'
+pythonpath = '__FINALPATH__'
 workers = 4
 user = '__YNH_APP_INSTANCE_NAME__'
-bind = 'unix:__YNH_APP_PATH__/sock'
+bind = 'unix:__FINALPATH__/sock'
 pid = '/run/gunicorn/__YNH_APP_INSTANCE_NAME__-pid'
 errorlog = '/var/log/__YNH_APP_INSTANCE_NAME__/error.log'
 accesslog = '/var/log/__YNH_APP_INSTANCE_NAME__/access.log'
