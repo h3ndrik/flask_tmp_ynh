@@ -234,7 +234,7 @@ chown -R $app:www-data "$datadir"
 #=================================================
 # ADD A CONFIGURATION
 #=================================================
-ynh_script_progression --message="Adding a configuration file..." --time --weight=1
+ynh_script_progression --message="Adding configuration files..." --time --weight=1
 
 ### You can add specific configuration files.
 ###
@@ -264,20 +264,20 @@ chown $app:$app "$final_path/app/settings_local.py"
 if [ $db_type = "mysql" ]
 then
 	db_host="$db_user:$db_pwd@localhost"
-	ynh_replace_string --match_string="__YNH_DB_TYPE__" --replace_string="mysql" --target_file="$final_path/app/settings_local.py"
-	ynh_replace_string --match_string="__YNH_DB_HOST__" --replace_string="$db_host" --target_file="$final_path/app/settings_local.py"
-	ynh_replace_string --match_string="__YNH_DB_NAME__" --replace_string="$db_name" --target_file="$final_path/app/settings_local.py"
-	ynh_replace_string --match_string="__YNH_DB_USER__" --replace_string="$db_user" --target_file="$final_path/app/settings_local.py"
-	ynh_replace_string --match_string="__YNH_DB_PASSWORD__" --replace_string="$db_pwd" --target_file="$final_path/app/settings_local.py"
+	ynh_replace_string --match_string="__DB_TYPE__" --replace_string="mysql" --target_file="$final_path/app/settings_local.py"
+	ynh_replace_string --match_string="__DB_HOST__" --replace_string="$db_host" --target_file="$final_path/app/settings_local.py"
+	ynh_replace_string --match_string="__DB_NAME__" --replace_string="$db_name" --target_file="$final_path/app/settings_local.py"
+	ynh_replace_string --match_string="__DB_USER__" --replace_string="$db_user" --target_file="$final_path/app/settings_local.py"
+	ynh_replace_string --match_string="__DB_PASSWORD__" --replace_string="$db_pwd" --target_file="$final_path/app/settings_local.py"
 	ynh_store_file_checksum --file="$final_path/app/settings_local.py"
 elif [ $db_type = "postgresql" ]
 then
 	db_host="$db_user:$db_pwd@localhost"
-	ynh_replace_string --match_string="__YNH_DB_TYPE__" --replace_string="postgresql" --target_file="$final_path/app/settings_local.py"
-	ynh_replace_string --match_string="__YNH_DB_HOST__" --replace_string="$db_host" --target_file="$final_path/app/settings_local.py"
-	ynh_replace_string --match_string="__YNH_DB_NAME__" --replace_string="$db_name" --target_file="$final_path/app/settings_local.py"
-	ynh_replace_string --match_string="__YNH_DB_USER__" --replace_string="$db_user" --target_file="$final_path/app/settings_local.py"
-	ynh_replace_string --match_string="__YNH_DB_PASSWORD__" --replace_string="$db_pwd" --target_file="$final_path/app/settings_local.py"
+	ynh_replace_string --match_string="__DB_TYPE__" --replace_string="postgresql" --target_file="$final_path/app/settings_local.py"
+	ynh_replace_string --match_string="__DB_HOST__" --replace_string="$db_host" --target_file="$final_path/app/settings_local.py"
+	ynh_replace_string --match_string="__DB_NAME__" --replace_string="$db_name" --target_file="$final_path/app/settings_local.py"
+	ynh_replace_string --match_string="__DB_USER__" --replace_string="$db_user" --target_file="$final_path/app/settings_local.py"
+	ynh_replace_string --match_string="__DB_PASSWORD__" --replace_string="$db_pwd" --target_file="$final_path/app/settings_local.py"
 	ynh_store_file_checksum --file="$final_path/app/settings_local.py"
 else
 	db_host=""
