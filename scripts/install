@@ -116,7 +116,7 @@ then
 	ynh_install_app_dependencies python3-mysqld libmariadbclient-dev
 elif [ $db_type = "postgresql" ]
 then
-	ynh_install_app_dependencies postgresql python3-psycopg2
+	ynh_install_app_dependencies postgresql python3-psycopg2 libpq-dev
 fi
 
 #=================================================
