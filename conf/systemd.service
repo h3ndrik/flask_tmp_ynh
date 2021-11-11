@@ -12,7 +12,7 @@ ExecReload=/bin/kill -s HUP $MAINPID
 ExecStop=/bin/kill -s TERM $MAINPID
 StandardOutput=append:/var/log/__APP__/__APP__.log
 StandardError=inherit
-PIDFile=/run/gunicorn/__YNH_APP_INSTANCE_NAME__-pid
+PIDFile=/run/gunicorn/__APP__-pid
 
 
 # Sandboxing options to harden security
