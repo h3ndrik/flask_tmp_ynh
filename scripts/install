@@ -111,6 +111,14 @@ ynh_script_progression --message="Installing dependencies..." --time --weight=1
 
 ynh_install_app_dependencies $pkg_dependencies
 
+if [ $db_type = "mysql" ]
+then
+	ynh_install_app_dependencies mysql
+elif [ $db_type = "postgresql" ]
+then
+	ynh_install_app_dependencies postgresql
+fi
+
 #=================================================
 # CREATE DEDICATED USER
 #=================================================
