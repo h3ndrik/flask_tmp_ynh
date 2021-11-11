@@ -112,7 +112,7 @@ fi
 # ...
 #=================================================
 
-ynh_replace_string --match_string="SITE_ROOT = [\\"\\'](.*)[\\"\\']" --replace_string="SITE_ROOT = \"$new_path\"" --target_file="$final_path/app/settings_local.py"
+ynh_replace_string --match_string="SITE_ROOT = [\\\"\\\'](.*)[\\\"\\\']" --replace_string="SITE_ROOT = \"$new_path\"" --target_file="$final_path/app/settings_local.py"
 
 #=================================================
 # GENERIC FINALISATION
