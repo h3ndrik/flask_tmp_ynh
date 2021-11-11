@@ -11,7 +11,14 @@
     <p>
       To edit this site, put your files in /var/www/__APP__/www using SSH/SCP.
     </p>
-    
+
+    <h2>Auth</h2>
+    <p>
+    {% if current_user.is_authenticated %}
+      You are logged in as: {{ current_user.name }}!
+    {% endif %}
+    </p>
+
     <p>As a reward, here is a random cat picture:</p>
     <img src="https://thecatapi.com/api/images/get?format=src&type=gif">
   </body>
