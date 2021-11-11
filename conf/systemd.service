@@ -1,5 +1,5 @@
 [Unit]
-Description=Small description of the service
+Description=__YNH_APP_INSTANCE_NAME__ gunicorn daemon
 After=network.target
 
 [Service]
@@ -7,9 +7,13 @@ Type=simple
 User=__APP__
 Group=__APP__
 WorkingDirectory=__FINALPATH__/
-ExecStart=__FINALPATH__/script
+ExecStart=__FINALPATH__/venv/bin/gunicorn -c __FINALPATH__/gunicorn.py wsgi:app
+ExecReload=/bin/kill -s HUP $MAINPID
+ExecStop=/bin/kill -s TERM $MAINPID
 StandardOutput=append:/var/log/__APP__/__APP__.log
 StandardError=inherit
+PIDFile=/run/gunicorn/__YNH_APP_NAME__-pid
+
 
 # Sandboxing options to harden security
 # Depending on specificities of your service/app, you may need to tweak these 
@@ -39,7 +43,7 @@ CapabilityBoundingSet=~CAP_BLOCK_SUSPEND CAP_WAKE_ALARM
 CapabilityBoundingSet=~CAP_SYS_TTY_CONFIG
 CapabilityBoundingSet=~CAP_MAC_ADMIN CAP_MAC_OVERRIDE
 CapabilityBoundingSet=~CAP_NET_ADMIN CAP_NET_BROADCAST CAP_NET_RAW
-CapabilityBoundingSet=~CAP_SYS_ADMIN CAP_SYS_PTRACE CAP_SYSLOG 
+CapabilityBoundingSet=~CAP_SYS_ADMIN CAP_SYS_PTRACE CAP_SYSLOG
 
 [Install]
 WantedBy=multi-user.target
