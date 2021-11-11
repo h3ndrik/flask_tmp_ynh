@@ -113,7 +113,7 @@ ynh_install_app_dependencies $pkg_dependencies
 
 if [ $db_type = "mysql" ]
 then
-#	ynh_install_app_dependencies mysql
+	ynh_install_app_dependencies mariadb-server
 elif [ $db_type = "postgresql" ]
 then
 	ynh_install_app_dependencies postgresql
