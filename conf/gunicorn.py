@@ -1,6 +1,7 @@
 command = '__FINALPATH__/venv/bin/gunicorn'
 pythonpath = '__FINALPATH__'
-workers = 4
+threads = 5
+workers = 1
 user = '__APP__'
 bind = 'unix:__FINALPATH__/sock'
 pid = '/run/gunicorn/__APP__-pid'
