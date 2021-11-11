@@ -123,6 +123,9 @@ then
 elif [ $db_type = "postgresql" ]
 then
 	ynh_install_app_dependencies postgresql python3-psycopg2 libpq-dev
+elif [ $db_type = "sqlite" ]
+then
+	ynh_install_app_dependencies sqlite3
 fi
 
 #=================================================
