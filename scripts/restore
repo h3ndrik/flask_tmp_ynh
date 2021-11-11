@@ -116,6 +116,14 @@ ynh_script_progression --message="Reinstalling dependencies..." --time --weight=
 # Define and install dependencies
 ynh_install_app_dependencies $pkg_dependencies
 
+if [ $db_type = "mysql" ]
+then
+	ynh_install_app_dependencies python3-mysqldb libmariadbclient-dev
+elif [ $db_type = "postgresql" ]
+then
+	ynh_install_app_dependencies postgresql python3-psycopg2 libpq-dev
+fi
+
 #=================================================
 # RESTORE THE DATABASE
 #=================================================
