@@ -269,6 +269,9 @@ chown $app:$app "$final_path/app/settings_local.py"
 ### you shoud rely on ynh_replace_string (which is basically a wrapper for sed)
 ### When doing so, you also need to manually call ynh_store_file_checksum
 
+secret_key=$(python3 -c "import secrets; print(secrets.token_hex(16))")
+ynh_replace_string --match_string="_SECRET_KEY_" --replace_string="$secret_key" --target_file="$final_path/app/settings_local.py"
+
 if [ $db_type = "mysql" ]
 then
 	db_host="$db_user:$db_pwd@localhost"
@@ -298,15 +301,15 @@ fi
 # CREATE DATABASE
 #=================================================
 
-pushd $final_path
-set +o nounset
-. venv/bin/activate
-set -o nounset
-python -c "from app import db, create_app; app = create_app(); app.app_context().push(); db.create_all()"
-set +o nounset
-deactivate
-set -o nounset
-popd
+# pushd $final_path
+# set +o nounset
+# . venv/bin/activate
+# set -o nounset
+# python -c "from app import db, create_app; app = create_app(); app.app_context().push(); db.create_all()"
+# set +o nounset
+# deactivate
+# set -o nounset
+# popd
 
 #=================================================
 # SETUP SYSTEMD

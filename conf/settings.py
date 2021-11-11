@@ -3,6 +3,8 @@
 # (N.B : the site root is also related to the nginx conf!)
 SITE_ROOT = "__PATH__"
 
+SECRET_KEY = "_SECRET_KEY_"
+
 DEBUG = False
 TEMPLATE_DEBUG = False
 
