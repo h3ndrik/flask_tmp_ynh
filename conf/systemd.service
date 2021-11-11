@@ -1,5 +1,5 @@
 [Unit]
-Description=__YNH_APP_INSTANCE_NAME__ gunicorn daemon
+Description=__APP__ gunicorn daemon
 After=network.target
 
 [Service]
