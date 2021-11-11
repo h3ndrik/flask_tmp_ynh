@@ -5,7 +5,7 @@
 #=================================================
 
 # dependencies used by the app
-pkg_dependencies="python3-virtualenv python3-pip gunicorn"
+pkg_dependencies="python3-dev python3-venv python3-pip python3-setuptools gunicorn"
 
 #=================================================
 # PERSONAL HELPERS
