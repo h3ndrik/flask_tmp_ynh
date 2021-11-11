@@ -194,6 +194,16 @@ popd
 chown $app:www-data -R "$final_path"
 
 #=================================================
+# SPECIFIC SETUP
+#=================================================
+# COPY TEMPLATE FILES
+#=================================================
+
+cp -r ../sources/* $final_path/
+#chmod u=rwX,g=rX,o= -R $final_path
+chown $app:www-data -R $final_path
+
+#=================================================
 # CREATE DATA DIRECTORY
 #=================================================
 ynh_script_progression --message="Creating a data directory..." --time --weight=1
@@ -237,8 +247,6 @@ ynh_script_progression --message="Adding a configuration file..." --time --weigh
 ### if it's found that the file was manually modified
 ###
 ### Check the documentation of `ynh_add_config` for more info.
-
-ynh_add_config --template="../sources/templates/index.html" --destination="$final_path/templates/index.html"
 
 ynh_add_config --template="settings.py" --destination="$final_path/app/settings_local.py"
 ynh_add_config --template="gunicorn.py" --destination="$final_path/gunicorn.py"
